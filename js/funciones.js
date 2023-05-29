@@ -13,11 +13,40 @@ function enviarFormulario(){
     let apellido = verificarApellido();
     let correo = verificarCorreo();
     let contra = verificarContra();
+    let fecha = verificarFecha();
+    let institucion = verificarInstitucion();
 
-    if(nombre == 1  && apellido == 1 && correo == 1 && contra == 1){
+    if(nombre == 1  && apellido == 1 && correo == 1 && contra == 1 && fecha == 1 && institucion == 1){
         document.formulario1.submit();
     }
 }
+function verificarFecha(){
+    var fecha = document.getElementById("Fecha");
+    if(fecha.value){ 
+        $("#ComprobarFecha").html("* Fecha válida.");
+        $("#ComprobarFecha").css("color", "green");
+        return 1;
+    }else{
+        $("#ComprobarFecha").html("* Ingresa tu fecha de nacimiento, por favor.");
+        $("#ComprobarFecha").css("color", "red");
+        return 0;
+
+    }
+
+}
+function verificarInstitucion(){
+    var institucion = document.getElementById("institucion");
+    if(institucion.value){ 
+        $("#ComprobarInstitucion").html("* Institución válida.");
+        $("#ComprobarInstitucion").css("color", "green");
+        return 1;
+    }else{
+        $("#ComprobarInstitucion").html("* Ingresa una institucion, por favor.");
+        $("#ComprobarInstitucion").css("color", "red");
+        return 0;
+    }
+}
+
 function verificarNombre(){
     var caracNombre=/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/;
     var nombre = document.getElementById("nombre");

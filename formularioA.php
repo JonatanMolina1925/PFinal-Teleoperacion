@@ -104,8 +104,8 @@
                     </div>
         
                     <div class="col-sm-6">
-                      <label for="Fecha" class="form-label">Fecha de nacimiento </label>
-                      <input type="date" name="Fecha" class="form-control" id="Fecha" placeholder="Username" required>
+                      <label for="Fecha" class="form-label">Fecha de nacimiento: <span id="ComprobarFecha"></span></label>
+                      <input type="date" name="Fecha" class="form-control" id="Fecha" value="<?=$fila['fecha']?>">
                     </div>
 
                     <div class="col-sm-6">
@@ -126,7 +126,7 @@
                     </div>
 
                     <div class="col-sm-6">
-                      <label for="institucion" class="form-label">Institución donde obtuvo su grado académico: </label>
+                      <label for="institucion" class="form-label">Institución donde obtuvo su grado académico: <span id="ComprobarInstitucion" ></span></label>
                       <input type="text" name="institucion" class="form-control" id="institucion" value="<?=$fila['institucion']?>" >
                     </div>
                     <div class="col-sm-6">
