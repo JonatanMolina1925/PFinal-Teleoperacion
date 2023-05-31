@@ -3,6 +3,7 @@
     if(isset($_SESSION['usuario'])){
     $Inicio = $_SESSION['usuario'];
     $sesion = "Cerrar sesión";
+    $grafica = 1;
         if($_SESSION['administrador']==1){
             $administrador = "control.php";
             $registrarse = "Control";
@@ -17,6 +18,7 @@
         $sesion = "Iniciar sesión";
         $administrador = "registrarse.php";
         $registrarse = "Registrarse";
+        $grafica = 0;
     }
 ?>
 
@@ -31,7 +33,9 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="js/jquery-3.6.4.min.js"></script>
+    <script src="js/plotly-2.20.0.min.js"></script>
     <script src="js/funciones.js"></script> 
+
 </head>
 <body id="contenedor">
     <header id="encabezado" class="bg-dark">
@@ -132,7 +136,59 @@
         </fieldset>
         <fieldset id="Resultados">
             <h2 class="centrar">Resultados</h2>
-            
+        <?php
+        if($grafica == 0){
+        ?>
+            <p>Inicia sesión para ver la señal de la última perturbación detectada.</p>
+         <?php
+        }else{
+            require("conexion.php");
+            $conn = new mysqli($host, $user, $passwd, $db);
+            if ($conn->connect_error){
+                die("Error al conectarse a la base de datos".$conn->connect_error);
+            }else{
+                $sql= "SELECT id,valor FROM datos";
+                $resultado = $conn->query($sql);
+                $valoresX = array();
+                $valoresY = array();
+
+                while($ver=$resultado->fetch_row()){
+                    $valoresX[]=$ver[0];
+                    $valoresY[]=$ver[1];
+                }
+                $datosX=json_encode($valoresX);
+                $datosY=json_encode($valoresY);
+            }
+        ?>
+        <p>Gráfica de la última perturbación detectada.</p>
+        <br>
+        <div id="GraficaLineal"></div>
+        <br>
+        <script type="text/javascript">
+            function crearCadenaLineal(json){
+                var parsed = JSON.parse(json);
+                var arr = [];
+                for(var x in parsed){
+                    arr.push(parsed[x]);
+                }
+                return arr;
+            }
+        </script>
+        <script type="text/javascript">
+            datosX=crearCadenaLineal('<?php echo $datosX ?>');
+            datosY=crearCadenaLineal('<?php echo $datosY ?>');
+
+            var trazo = {
+                x: datosX,
+                y: datosY,
+                type: 'scatter'
+            };
+            var data = [trazo];
+            Plotly.newPlot('GraficaLineal', data);
+        </script>
+        <?php  
+        }
+         ?>
         </fieldset>
                 
         <fieldset id="referencias">

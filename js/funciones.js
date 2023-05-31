@@ -167,6 +167,8 @@ $(function(){
     }
 })
 
+
+
 // function ComprobarDatos(correo){
 //     // let Contra = iniciarContra();
 //     // let Correo = iniciarCorreo();
